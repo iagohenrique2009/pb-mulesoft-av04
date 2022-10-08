@@ -1,4 +1,4 @@
-package br.com.mulesoft.paymentservicepb.model;
+package br.com.mulesoft.paymentservicepb.form.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

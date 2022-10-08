@@ -1,4 +1,4 @@
-package br.com.mulesoft.paymentservicepb.form;
+package br.com.mulesoft.paymentservicepb.form.token;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

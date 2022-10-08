@@ -1,9 +1,7 @@
-package br.com.mulesoft.paymentservicepb.model;
+package br.com.mulesoft.paymentservicepb.form.payment;
 
 import org.springframework.stereotype.Component;
 
-import br.com.mulesoft.paymentservicepb.dto.OrderDto;
-import br.com.mulesoft.paymentservicepb.form.TokenForm;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,10 +12,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentRequest {
+public class PaymentForm {
 
-	
-	
 	private String seller_id;
 	
 	private Customer customer;
@@ -29,8 +25,5 @@ public class PaymentRequest {
 	private double transaction_amount;
 	
 	private Card card;
-	
-	
-
 
 }
