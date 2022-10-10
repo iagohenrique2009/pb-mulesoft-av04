@@ -2,11 +2,12 @@ package br.com.mulesoft.paymentservicepb.dto;
 
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Component;
 
 import br.com.mulesoft.paymentservicepb.model.order.Item;
@@ -25,10 +26,13 @@ public class OrderDto {
 
 
 	
-	@NotNull @NotEmpty
+	@Length(min = 1)
 	private String cpf;
 	
-	@NotNull
+	@Length(min = 1)
+	private String cnpj;
+	
+	@NotNull @Valid
 	private List<Item> items;
 	
 	@PositiveOrZero
@@ -37,13 +41,13 @@ public class OrderDto {
 	@PositiveOrZero
 	private double discount;
 	
-	@NotNull @NotEmpty
+	@NotEmpty @Length(min = 1)
 	private String payment_type;
 
-	@NotNull @NotEmpty
+	@NotEmpty @Length(min = 1)
 	private String currency_type;
 	
-	@NotNull
+	@NotNull @Valid 
 	private PaymentInfo payment;
 
 }

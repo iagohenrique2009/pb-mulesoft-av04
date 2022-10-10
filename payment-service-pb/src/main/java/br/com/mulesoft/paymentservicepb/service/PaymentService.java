@@ -1,8 +1,8 @@
 package br.com.mulesoft.paymentservicepb.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,22 +33,28 @@ public class PaymentService {
     	Token t = service.update(new TokenForm("client_id_mulesoft", "91452c37-e343-4738-a94a-be113875cb2b"));
     	System.out.println(t.getAccess_token());
     	
-    	Customer customerRequestInfo= new Customer("CPF",dto.getCpf());
+    	Customer customerRequestInfo;
+    	
+    	if(dto.getCpf()==null) { 
+    		customerRequestInfo= new Customer("CNPJ",dto.getCnpj());
+    	}else {
+    		customerRequestInfo= new Customer("CPF",dto.getCpf());
+    	}
+  
     	
     	PaymentUtil util = new PaymentUtil();
     	Double itemTotal =util.totalItens(dto);
     	
-    	Card card = new Card(t.getAccess_token(),dto.getPayment().getCardholder_name(),dto.getPayment().getSecurity_code(),dto.getPayment().getBrand(),dto.getPayment().getExpiration_month(),dto.getPayment().getExpiration_year());
+    	Card card = new Card(t,dto);
     	String token = "Bearer "+t.getAccess_token();
     	
-    	OrderProcess order= service.ProcessPayment(token,new PaymentForm("7be8890e-f4da-40c2-975e-0b9a87c5ad69",customerRequestInfo,
-    			   dto.getPayment_type(),dto.getCurrency_type(),itemTotal,card));
+    	PaymentForm paymentForm =new PaymentForm("7be8890e-f4da-40c2-975e-0b9a87c5ad69",customerRequestInfo,
+				dto.getPayment_type(),dto.getCurrency_type(),itemTotal,card);
+    	
+    	OrderProcess order= service.ProcessPayment(token,paymentForm);
     			 
-    	if(order.getStatus().equals("APPROVED")) {
-			return new OrderApproved(order.getTransaction_amount(),order.getPayment_id(),order.getStatus(),order.getAuthorization().getReason_message());
+			return new OrderApproved(order);
 
-    	}
-    	return null;
 	}
 	public void SavePayment(OrderApproved approved) {
 		
@@ -60,9 +66,8 @@ public class PaymentService {
 	        return repository.findAll();
 	 }
 	 
-	 public OrderApproved getById(Long id) {
-	        OrderApproved order = repository.findById(id)
-	                .orElseThrow(() -> new EntityNotFoundException("Id não Encontrado"));
+	 public Optional<OrderApproved> getById(Long id) {
+	        Optional<OrderApproved> order = repository.findById(id);
 
 	        return order;
 	    }

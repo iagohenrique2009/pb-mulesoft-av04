@@ -1,8 +1,8 @@
 package br.com.mulesoft.paymentservicepb.model.order;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Positive;
+import org.hibernate.validator.constraints.Length;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,13 +15,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Item {
 	
-	@NotEmpty @NotBlank
+	@NotEmpty @Length(min = 1)
 	private String item;
 	
-	@PositiveOrZero
+	@Positive
 	private double value;
 	
-	@PositiveOrZero
+	@Positive
 	private int qty;
 
 }

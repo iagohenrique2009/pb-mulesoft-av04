@@ -2,6 +2,7 @@ package br.com.mulesoft.paymentservicepb.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -58,15 +59,16 @@ public class PaymentController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<OrderApprovedDto> getByid(@PathVariable Long id) {
-
     	
-    	try{
-    		OrderApproved order =paymentService.getById(id);
-    		return ResponseEntity.ok(new OrderApprovedDto(order));
+    	Optional<OrderApproved> order =paymentService.getById(id);
+    	if(order.isPresent()) {
+    	
+    		
+    		return ResponseEntity.ok(new OrderApprovedDto(order.get()));
     	}
-    	catch (EntityNotFoundException e) {
+    	else{
     		return ResponseEntity.notFound().build();
-		}
+    	}
     	
     	
     }

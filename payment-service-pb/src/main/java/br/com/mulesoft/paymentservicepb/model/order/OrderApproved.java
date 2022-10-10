@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import br.com.mulesoft.paymentservicepb.model.orderprocess.OrderProcess;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,14 +30,16 @@ public class OrderApproved {
 	
 	private String message;
 
-	public OrderApproved(double total, String payment_id, String payment_status, String message) {
-		this.total = total;
-		this.payment_id = payment_id;
-		this.payment_status = payment_status;
-		this.message = message;
+	public OrderApproved(OrderProcess order) {
+		
+		this.total=order.getTransaction_amount();
+		this.payment_id=order.getPayment_id();
+		this.payment_status=order.getStatus();
+		this.message=order.getAuthorization().getReason_message();
+
+		
 	}
-	
-	
+
 
 	
 }
