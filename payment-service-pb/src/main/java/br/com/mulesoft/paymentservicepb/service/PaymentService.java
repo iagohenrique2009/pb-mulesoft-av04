@@ -13,7 +13,7 @@ import br.com.mulesoft.paymentservicepb.form.payment.PaymentForm;
 import br.com.mulesoft.paymentservicepb.form.token.Token;
 import br.com.mulesoft.paymentservicepb.form.token.TokenForm;
 import br.com.mulesoft.paymentservicepb.http.PaymentClient;
-import br.com.mulesoft.paymentservicepb.model.order.OrderApproved;
+import br.com.mulesoft.paymentservicepb.model.order.OrderTransaction;
 import br.com.mulesoft.paymentservicepb.model.orderprocess.OrderProcess;
 import br.com.mulesoft.paymentservicepb.repository.PaymentRepository;
 import br.com.mulesoft.paymentservicepb.util.PaymentUtil;
@@ -22,15 +22,15 @@ import br.com.mulesoft.paymentservicepb.util.PaymentUtil;
 public class PaymentService {
 	
 	@Autowired
-	private PaymentClient service;
+	private PaymentClient client;
 	
 	@Autowired
 	private PaymentRepository repository;
 	
 
-	public OrderApproved paymentProcess(OrderDto dto) {
+	public OrderTransaction paymentProcess(OrderDto dto) {
 		
-    	Token t = service.update(new TokenForm("client_id_mulesoft", "91452c37-e343-4738-a94a-be113875cb2b"));
+    	Token t = client.getToken(new TokenForm("client_id_mulesoft", "91452c37-e343-4738-a94a-be113875cb2b"));
     	System.out.println(t.getAccess_token());
     	
     	Customer customerRequestInfo;
@@ -51,23 +51,23 @@ public class PaymentService {
     	PaymentForm paymentForm =new PaymentForm("7be8890e-f4da-40c2-975e-0b9a87c5ad69",customerRequestInfo,
 				dto.getPayment_type(),dto.getCurrency_type(),itemTotal,card);
     	
-    	OrderProcess order= service.ProcessPayment(token,paymentForm);
+    	OrderProcess order= client.processPayment(token,paymentForm);
     			 
-			return new OrderApproved(order);
+			return new OrderTransaction(order);
 
 	}
-	public void SavePayment(OrderApproved approved) {
+	public void SavePayment(OrderTransaction approved) {
 		
 		repository.save(approved);
 	}
 	
 	
-	 public List<OrderApproved> getAll() {
+	 public List<OrderTransaction> getAll() {
 	        return repository.findAll();
 	 }
 	 
-	 public Optional<OrderApproved> getById(Long id) {
-	        Optional<OrderApproved> order = repository.findById(id);
+	 public Optional<OrderTransaction> getById(Long id) {
+	        Optional<OrderTransaction> order = repository.findById(id);
 
 	        return order;
 	    }

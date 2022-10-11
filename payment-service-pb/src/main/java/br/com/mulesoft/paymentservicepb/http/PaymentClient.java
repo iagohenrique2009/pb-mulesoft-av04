@@ -15,11 +15,11 @@ import br.com.mulesoft.paymentservicepb.model.orderprocess.OrderProcess;
 public interface PaymentClient {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/v1/auth", consumes = "application/json", produces = "application/json")
-    Token update(@RequestBody TokenForm form);
+    Token getToken(@RequestBody TokenForm form);
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/v1/payments/credit-card", consumes = "application/json", produces = "application/json")
-    OrderProcess ProcessPayment(@RequestHeader("Authorization") String token,@RequestBody PaymentForm form);
+    OrderProcess processPayment(@RequestHeader("Authorization") String token,@RequestBody PaymentForm form);
 
 
 	

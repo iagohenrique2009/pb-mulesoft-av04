@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -20,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.mulesoft.paymentservicepb.dto.OrderApprovedDto;
 import br.com.mulesoft.paymentservicepb.dto.OrderDto;
-import br.com.mulesoft.paymentservicepb.model.order.OrderApproved;
+import br.com.mulesoft.paymentservicepb.model.order.OrderTransaction;
 import br.com.mulesoft.paymentservicepb.service.PaymentService;
 
 @RestController
@@ -30,18 +29,19 @@ public class PaymentController {
 	@Autowired
 	private PaymentService paymentService;
 
+
 	
     @PostMapping
     @Transactional
-    public ResponseEntity<OrderApproved> Payment(@Valid @RequestBody OrderDto dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<OrderTransaction> Payment(@Valid @RequestBody OrderDto dto, UriComponentsBuilder uriBuilder) {
     	
     	
-    	OrderApproved approved= paymentService.paymentProcess(dto);
+    	OrderTransaction approved= paymentService.paymentProcess(dto);
     	
     	if(approved!=null) {
-            URI address = uriBuilder.path("/api/v1/payment/{id}").buildAndExpand(approved.getOrder_id()).toUri();
+             URI address = uriBuilder.path("/api/v1/payment/{id}").buildAndExpand(approved.getOrder_id()).toUri();
 
-        	paymentService.SavePayment(approved);
+         	paymentService.SavePayment(approved);
       
             return ResponseEntity.created(address).body(approved);
  
@@ -53,14 +53,14 @@ public class PaymentController {
     
     @GetMapping
     public List<OrderApprovedDto> getAll(){
-    	List<OrderApproved> order=paymentService.getAll();
+    	List<OrderTransaction> order=paymentService.getAll();
     	return OrderApprovedDto.convert(order);
     	
     }
     @GetMapping("/{id}")
     public ResponseEntity<OrderApprovedDto> getByid(@PathVariable Long id) {
     	
-    	Optional<OrderApproved> order =paymentService.getById(id);
+    	Optional<OrderTransaction> order =paymentService.getById(id);
     	if(order.isPresent()) {
     	
     		

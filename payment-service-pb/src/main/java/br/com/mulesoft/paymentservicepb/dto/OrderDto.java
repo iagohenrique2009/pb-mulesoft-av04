@@ -50,4 +50,23 @@ public class OrderDto {
 	@NotNull @Valid 
 	private PaymentInfo payment;
 
+	public OrderDto(@Length(min = 1) String cnpj, @NotNull @Valid List<Item> items, @PositiveOrZero double shipping,
+			@PositiveOrZero double discount, @NotEmpty @Length(min = 1) String payment_type,
+			@NotEmpty @Length(min = 1) String currency_type, @NotNull @Valid PaymentInfo payment) {
+		this.cnpj = cnpj;
+		this.items = items;
+		this.shipping = shipping;
+		this.discount = discount;
+		this.payment_type = payment_type;
+		this.currency_type = currency_type;
+		this.payment = payment;
+	}
+
+
+	
+
+
+	
+	
+
 }

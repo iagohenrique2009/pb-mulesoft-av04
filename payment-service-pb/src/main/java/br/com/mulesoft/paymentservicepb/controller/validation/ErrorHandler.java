@@ -2,8 +2,6 @@ package br.com.mulesoft.paymentservicepb.controller.validation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import br.com.mulesoft.paymentservicepb.controller.validation.ErrorValidation;
-
 import feign.FeignException;
 
 @RestControllerAdvice

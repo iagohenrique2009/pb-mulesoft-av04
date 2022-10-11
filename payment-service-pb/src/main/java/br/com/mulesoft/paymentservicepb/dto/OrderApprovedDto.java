@@ -3,7 +3,7 @@ package br.com.mulesoft.paymentservicepb.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.mulesoft.paymentservicepb.model.order.OrderApproved;
+import br.com.mulesoft.paymentservicepb.model.order.OrderTransaction;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class OrderApprovedDto {
 	private String message;
 	
 	
-	public OrderApprovedDto(OrderApproved order) {
+	public OrderApprovedDto(OrderTransaction order) {
 		
 		this.order_id = order.getOrder_id();
 		this.total = order.getTotal();
@@ -36,7 +36,7 @@ public class OrderApprovedDto {
 	}
 	
 	
-	public static List<OrderApprovedDto> convert(List<OrderApproved> order){
+	public static List<OrderApprovedDto> convert(List<OrderTransaction> order){
 		return order.stream().map(OrderApprovedDto::new).collect(Collectors.toList());
 		
 	}

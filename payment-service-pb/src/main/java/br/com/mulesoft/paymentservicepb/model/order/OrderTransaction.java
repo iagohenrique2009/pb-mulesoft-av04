@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderApproved {
+public class OrderTransaction {
 	
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class OrderApproved {
 	
 	private String message;
 
-	public OrderApproved(OrderProcess order) {
+	public OrderTransaction(OrderProcess order) {
 		
 		this.total=order.getTransaction_amount();
 		this.payment_id=order.getPayment_id();
@@ -41,5 +41,6 @@ public class OrderApproved {
 	}
 
 
+	
 	
 }
